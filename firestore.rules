@@ -1,0 +1,58 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isAdmin() {
+      // Set a custom claim on your own Firebase Auth user:
+      // admin.auth().setCustomUserClaims(uid, { admin: true })
+      return request.auth != null && request.auth.token.admin == true;
+    }
+
+    // Public marketing content: units and packages are readable by anyone
+    // (needed to render the site + booking flow), writable only by admin.
+    match /units/{unitId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /packages/{packageId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /dayOfWeekRates/{rateId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /seasonalAdjustments/{seasonId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // Availability is read-only for the public calendar. It never contains
+    // client PII (name/email live on the booking doc, not here), so it's
+    // safe to expose broadly. All writes happen via Cloud Functions using
+    // the Admin SDK, which bypasses these rules entirely — so "write: if
+    // false" here just blocks direct client writes, not your functions.
+    match /availability/{unitId}/dates/{dateId} {
+      allow read: if true;
+      allow write: if false;
+    }
+
+    // Bookings contain PII (name, email, phone) — never publicly readable.
+    // Creation and all status changes go through Cloud Functions (which use
+    // the Admin SDK and bypass these rules), so direct client writes are
+    // blocked entirely. Admins can read for the dashboard.
+    match /bookings/{bookingId} {
+      allow read: if isAdmin();
+      allow write: if false;
+    }
+
+    match /changeRequests/{requestId} {
+      allow read: if isAdmin();
+      allow write: if false;
+    }
+  }
+}
