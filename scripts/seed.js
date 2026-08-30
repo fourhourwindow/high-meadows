@@ -72,7 +72,7 @@ const packages = [
     name: "Venue + Cottage",
     unitIds: ["venue-grounds", "cottage"],
     maxGuestCount: 150,
-    description: "Venue plus the detached cottage for the couple or family.",
+    description: "Venue plus the detached cottage (1 bedroom, 2 bathrooms, kitchen, livingroom, and deck) for the couple or family.",
     active: true,
   },
   {
@@ -80,7 +80,7 @@ const packages = [
     name: "Full Property Buyout",
     unitIds: ["venue-grounds", "cottage", "main-house"],
     maxGuestCount: 150,
-    description: "Full use of the venue, cottage, and main house.",
+    description: "Full use of the venue, cottage (1 bedroom, 2 bathrooms, kitchen, livingroom, and deck), and main house (6 bedrooms, each with private full bathroom, shared living spaces, and commercial kitchen).",
     active: true,
   },
 ];
