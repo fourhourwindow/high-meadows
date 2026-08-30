@@ -1,0 +1,154 @@
+:root {
+  /* Color — drawn from the land: vineyard rows, plum-dark wine, stone paths, harvest gold */
+  --color-vine: #3b4a3b;
+  --color-vine-dark: #263429;
+  --color-wine: #6b2737;
+  --color-stone: #f3eee3;
+  --color-stone-dark: #e7ded0;
+  --color-oak: #6b4e3d;
+  --color-gold: #b8863b;
+  --color-ink: #23241f;
+  --color-ink-soft: #52544c;
+
+  /* Type */
+  --font-display: "Fraunces", serif;
+  --font-body: "Inter", sans-serif;
+  --font-mono: "Space Mono", monospace;
+
+  /* Layout */
+  --content-width: 1120px;
+  --radius: 2px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  * {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+body {
+  margin: 0;
+  background: var(--color-stone);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  color: var(--color-vine-dark);
+  line-height: 1.1;
+  margin: 0;
+}
+
+h1 {
+  font-size: clamp(2.4rem, 5vw, 4rem);
+  font-optical-sizing: auto;
+}
+
+h2 {
+  font-size: clamp(1.7rem, 3vw, 2.4rem);
+}
+
+h3 {
+  font-size: 1.25rem;
+}
+
+p {
+  margin: 0 0 1rem;
+  color: var(--color-ink-soft);
+  max-width: 60ch;
+}
+
+a {
+  color: inherit;
+}
+
+button {
+  font-family: var(--font-body);
+}
+
+:focus-visible {
+  outline: 3px solid var(--color-gold);
+  outline-offset: 2px;
+}
+
+.container {
+  max-width: var(--content-width);
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-wine);
+  display: block;
+  margin-bottom: 0.75rem;
+}
+
+.btn {
+  display: inline-block;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 0.85rem 1.75rem;
+  border-radius: var(--radius);
+  border: 1px solid transparent;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 150ms ease, color 150ms ease, border-color 150ms ease;
+}
+
+.btn-primary {
+  background: var(--color-wine);
+  color: var(--color-stone);
+}
+
+.btn-primary:hover {
+  background: #551d2c;
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--color-vine-dark);
+  border-color: var(--color-vine-dark);
+}
+
+.btn-secondary:hover {
+  background: var(--color-vine-dark);
+  color: var(--color-stone);
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.section {
+  padding: clamp(3rem, 8vw, 6rem) 0;
+}
+
+.section-divider {
+  width: 100%;
+  height: 48px;
+  display: block;
+}

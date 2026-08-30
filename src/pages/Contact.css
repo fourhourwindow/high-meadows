@@ -1,0 +1,8 @@
+.contact-page {
+  padding: clamp(3rem, 8vw, 5rem) 1.5rem;
+  max-width: 720px;
+}
+
+.contact-page__lede {
+  margin-bottom: 2rem;
+}

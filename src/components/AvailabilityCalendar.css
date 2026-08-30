@@ -1,0 +1,126 @@
+.availability-calendar {
+  background: #fff;
+  border: 1px solid var(--color-stone-dark);
+  padding: 1.5rem;
+  max-width: 380px;
+  font-family: var(--font-mono);
+}
+
+.availability-calendar__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.availability-calendar__header h3 {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+}
+
+.availability-calendar__nav {
+  background: none;
+  border: 1px solid var(--color-stone-dark);
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  font-size: 1rem;
+  color: var(--color-ink);
+}
+
+.availability-calendar__nav:hover {
+  background: var(--color-stone);
+}
+
+.availability-calendar__weekdays,
+.availability-calendar__grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+}
+
+.availability-calendar__weekdays {
+  margin-bottom: 4px;
+}
+
+.availability-calendar__weekdays span {
+  text-align: center;
+  font-size: 0.7rem;
+  color: var(--color-ink-soft);
+}
+
+.availability-calendar__day {
+  aspect-ratio: 1;
+  border: 1px solid transparent;
+  background: none;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  border-radius: var(--radius);
+  cursor: default;
+}
+
+.availability-calendar__day--past {
+  color: #ccc6b8;
+}
+
+.availability-calendar__day--loading {
+  color: var(--color-ink-soft);
+  opacity: 0.4;
+}
+
+.availability-calendar__day--available {
+  background: #eaf0e7;
+  color: var(--color-vine-dark);
+}
+
+.availability-calendar__day--available:not(:disabled) {
+  cursor: pointer;
+}
+
+.availability-calendar__day--available:not(:disabled):hover {
+  background: var(--color-vine);
+  color: var(--color-stone);
+}
+
+.availability-calendar__day--unavailable {
+  background: #f3e6e6;
+  color: var(--color-wine);
+  text-decoration: line-through;
+  opacity: 0.6;
+}
+
+.availability-calendar__day--selected {
+  background: var(--color-gold) !important;
+  color: var(--color-ink) !important;
+}
+
+.availability-calendar__legend {
+  display: flex;
+  gap: 1.25rem;
+  margin-top: 1rem;
+  font-size: 0.75rem;
+  color: var(--color-ink-soft);
+}
+
+.availability-calendar__legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.availability-calendar__swatch {
+  width: 10px;
+  height: 10px;
+  display: inline-block;
+  border-radius: 2px;
+}
+
+.availability-calendar__swatch--available {
+  background: #eaf0e7;
+  border: 1px solid var(--color-vine);
+}
+
+.availability-calendar__swatch--unavailable {
+  background: #f3e6e6;
+  border: 1px solid var(--color-wine);
+}

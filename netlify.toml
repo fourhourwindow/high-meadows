@@ -1,0 +1,16 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+
+[dev]
+  command = "npm run dev"
+  targetPort = 5173
+  port = 8888
+
+# Client-side routing fallback — needed once you add react-router for
+# /book, /admin, etc. Harmless for now with a single-page test UI.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
