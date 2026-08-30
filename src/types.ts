@@ -94,8 +94,23 @@ export interface Booking {
   status: BookingStatus;
   stripePaymentIntentId?: string;
   holdExpiresAt?: string; // ISO timestamp, only while status === "held"
+  // Only set once a confirmed booking is cancelled:
+  refundPercent?: number;
+  refundAmount?: number;
+  refundStatus?: "refunded" | "manual_required" | "not_applicable";
+  cancelledAt?: string;
   createdAt: string;
   updatedAt: string;
+}
+
+/** A sliding-scale cancellation refund policy — e.g. "90+ days' notice
+ * before the event gets a 100% refund". Stored as admin-editable data
+ * (settings/cancellationPolicy) rather than hardcoded, same reasoning as
+ * seasonal pricing: this is exactly the kind of thing that gets tuned
+ * over time without needing a code change. */
+export interface CancellationTier {
+  minDaysBeforeEvent: number;
+  refundPercent: number;
 }
 
 export type ChangeType = "upgrade" | "downgrade";

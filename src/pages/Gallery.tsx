@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { placeholderPhoto, MAIN_HOUSE_PHOTO_URL } from "../lib/placeholderImages";
 import "./Gallery.css";
 
 type Category = "grounds" | "main-house" | "cottage";
@@ -7,10 +8,7 @@ interface GalleryImage {
   id: string;
   category: Category;
   caption: string;
-  /** Once real photography exists, point this at the file — e.g.
-   * "/gallery/grounds-01.jpg" with the image placed in /public/gallery/ —
-   * and the placeholder tile below automatically switches to an <img>. */
-  src?: string;
+  src: string;
 }
 
 const CATEGORY_LABELS: Record<Category, string> = {
@@ -19,20 +17,22 @@ const CATEGORY_LABELS: Record<Category, string> = {
   cottage: "Cottage",
 };
 
-// Placeholder inventory — swap in real photos by adding `src`. Add or
-// remove entries freely; the grid and filters adapt automatically.
+// Placeholder inventory — every `src` here is filler (Lorem Picsum, seeded
+// per id) except h1, which uses the one real photo we have. Swap any entry's
+// `src` for a real photo path (e.g. "/images/grounds-lawn.jpg", once added
+// to /public/images/) as photography comes in — nothing else needs to change.
 const IMAGES: GalleryImage[] = [
-  { id: "g1", category: "grounds", caption: "Ceremony lawn, looking toward the tree line" },
-  { id: "g2", category: "grounds", caption: "Grounds at golden hour" },
-  { id: "g3", category: "grounds", caption: "13 acres, view from the drive" },
-  { id: "g4", category: "grounds", caption: "Reception tent setup area" },
-  { id: "h1", category: "main-house", caption: "Main house, front exterior" },
-  { id: "h2", category: "main-house", caption: "Main house, living area" },
-  { id: "h3", category: "main-house", caption: "Main house, one of seven bedrooms" },
-  { id: "h4", category: "main-house", caption: "Main house, dining room" },
-  { id: "c1", category: "cottage", caption: "Cottage exterior and deck" },
-  { id: "c2", category: "cottage", caption: "Cottage living room" },
-  { id: "c3", category: "cottage", caption: "Cottage bedroom" },
+  { id: "g1", category: "grounds", caption: "Ceremony lawn, looking toward the tree line", src: placeholderPhoto("g1", 640, 480) },
+  { id: "g2", category: "grounds", caption: "Grounds at golden hour", src: placeholderPhoto("g2", 640, 480) },
+  { id: "g3", category: "grounds", caption: "13 acres, view from the drive", src: placeholderPhoto("g3", 640, 480) },
+  { id: "g4", category: "grounds", caption: "Reception tent setup area", src: placeholderPhoto("g4", 640, 480) },
+  { id: "h1", category: "main-house", caption: "Main house exterior", src: MAIN_HOUSE_PHOTO_URL },
+  { id: "h2", category: "main-house", caption: "Main house, living area", src: placeholderPhoto("h2", 640, 480) },
+  { id: "h3", category: "main-house", caption: "Main house, one of seven bedrooms", src: placeholderPhoto("h3", 640, 480) },
+  { id: "h4", category: "main-house", caption: "Main house, dining room", src: placeholderPhoto("h4", 640, 480) },
+  { id: "c1", category: "cottage", caption: "Cottage exterior and deck", src: placeholderPhoto("c1", 640, 480) },
+  { id: "c2", category: "cottage", caption: "Cottage living room", src: placeholderPhoto("c2", 640, 480) },
+  { id: "c3", category: "cottage", caption: "Cottage bedroom", src: placeholderPhoto("c3", 640, 480) },
 ];
 
 export function Gallery() {
@@ -82,13 +82,7 @@ export function Gallery() {
             onClick={() => setLightboxImage(img)}
             aria-label={`View larger: ${img.caption}`}
           >
-            {img.src ? (
-              <img src={img.src} alt={img.caption} />
-            ) : (
-              <div className="gallery-tile__placeholder">
-                <span>{CATEGORY_LABELS[img.category]}</span>
-              </div>
-            )}
+            <img src={img.src} alt={img.caption} loading="lazy" />
             <span className="gallery-tile__caption">{img.caption}</span>
           </button>
         ))}
@@ -111,13 +105,7 @@ export function Gallery() {
             ×
           </button>
           <div className="gallery-lightbox__content" onClick={(e) => e.stopPropagation()}>
-            {lightboxImage.src ? (
-              <img src={lightboxImage.src} alt={lightboxImage.caption} />
-            ) : (
-              <div className="gallery-lightbox__placeholder">
-                <span>{CATEGORY_LABELS[lightboxImage.category]}</span>
-              </div>
-            )}
+            <img src={lightboxImage.src} alt={lightboxImage.caption} />
             <p className="gallery-lightbox__caption">{lightboxImage.caption}</p>
           </div>
         </div>

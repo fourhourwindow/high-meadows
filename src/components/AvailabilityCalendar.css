@@ -32,6 +32,18 @@
   background: var(--color-stone);
 }
 
+.availability-calendar__instructions {
+  font-size: 0.8rem;
+  color: var(--color-ink-soft);
+  margin: 0 0 0.75rem;
+}
+
+.availability-calendar__range-error {
+  font-size: 0.78rem;
+  color: var(--color-wine);
+  margin: 0 0 0.75rem;
+}
+
 .availability-calendar__weekdays,
 .availability-calendar__grid {
   display: grid;
@@ -50,6 +62,7 @@
 }
 
 .availability-calendar__day {
+  position: relative;
   aspect-ratio: 1;
   border: 1px solid transparent;
   background: none;
@@ -57,6 +70,14 @@
   font-size: 0.8rem;
   border-radius: var(--radius);
   cursor: default;
+}
+
+.availability-calendar__day-icon {
+  position: absolute;
+  bottom: 1px;
+  right: 2px;
+  font-size: 0.5rem;
+  line-height: 1;
 }
 
 .availability-calendar__day--past {
@@ -82,7 +103,23 @@
   color: var(--color-stone);
 }
 
-.availability-calendar__day--unavailable {
+.availability-calendar__day--held {
+  background: #fbf1da;
+  color: var(--color-oak);
+  opacity: 0.85;
+  cursor: pointer;
+}
+
+.availability-calendar__day--held:hover {
+  filter: brightness(0.96);
+}
+
+.availability-calendar__day--info-open {
+  outline: 2px solid var(--color-oak);
+  outline-offset: -2px;
+}
+
+.availability-calendar__day--booked {
   background: #f3e6e6;
   color: var(--color-wine);
   text-decoration: line-through;
@@ -92,6 +129,20 @@
 .availability-calendar__day--selected {
   background: var(--color-gold) !important;
   color: var(--color-ink) !important;
+}
+
+.availability-calendar__hold-hint {
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  color: var(--color-ink-soft);
+  background: #fbf1da;
+  border-left: 3px solid var(--color-oak);
+  padding: 0.65rem 0.85rem;
+  margin: 0.75rem 0 0;
+}
+
+.availability-calendar__hold-hint strong {
+  color: var(--color-oak);
 }
 
 .availability-calendar__legend {
@@ -120,7 +171,12 @@
   border: 1px solid var(--color-vine);
 }
 
-.availability-calendar__swatch--unavailable {
+.availability-calendar__swatch--held {
+  background: #fbf1da;
+  border: 1px solid var(--color-oak);
+}
+
+.availability-calendar__swatch--booked {
   background: #f3e6e6;
   border: 1px solid var(--color-wine);
 }

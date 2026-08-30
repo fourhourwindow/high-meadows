@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { ContourMap } from "../components/ContourMap";
 import { AvailabilityCalendar } from "../components/AvailabilityCalendar";
 import { ContactForm } from "../components/ContactForm";
+import { placeholderPhoto, MAIN_HOUSE_PHOTO_URL } from "../lib/placeholderImages";
 import "./Home.css";
 
 export function Home() {
@@ -38,6 +39,11 @@ export function Home() {
           </div>
           <div className="grounds__cards">
             <div className="grounds__card">
+              <img
+                className="grounds__card-image"
+                src={MAIN_HOUSE_PHOTO_URL}
+                alt="High Meadows main house"
+              />
               <h3>Main House</h3>
               <p>
                 7 bedrooms and 8 bathrooms, enough for the wedding party and
@@ -45,6 +51,11 @@ export function Home() {
               </p>
             </div>
             <div className="grounds__card">
+              <img
+                className="grounds__card-image"
+                src={placeholderPhoto("cottage", 600, 450)}
+                alt="Placeholder — cottage photo coming soon"
+              />
               <h3>The Cottage</h3>
               <p>
                 A detached, private cottage — one bedroom, two bathrooms, a
@@ -53,6 +64,11 @@ export function Home() {
               </p>
             </div>
             <div className="grounds__card">
+              <img
+                className="grounds__card-image"
+                src={placeholderPhoto("grounds", 600, 450)}
+                alt="Placeholder — grounds photo coming soon"
+              />
               <h3>The Land</h3>
               <p>
                 13 acres of rolling grounds set in the heart of Virginia wine
@@ -63,7 +79,18 @@ export function Home() {
         </div>
       </section>
 
-      <section className="section section--tinted">
+      <section
+        className="section section--tinted"
+        style={{
+          backgroundImage: `linear-gradient(rgba(38,52,41,0.88), rgba(38,52,41,0.88)), url(${placeholderPhoto(
+            "nearby",
+            1200,
+            500
+          )})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+      >
         <div className="container">
           <span className="eyebrow">What's Nearby</span>
           <h2>Close enough to town, far enough from everything else.</h2>

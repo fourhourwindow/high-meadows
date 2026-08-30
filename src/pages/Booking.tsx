@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "../lib/firebase";
-import { AvailabilityCalendar } from "../components/AvailabilityCalendar";
+import { AvailabilityCalendar, type DateRangeValue } from "../components/AvailabilityCalendar";
+import { BookingFlow } from "../components/BookingFlow";
+import { placeholderPhoto, MAIN_HOUSE_PHOTO_URL } from "../lib/placeholderImages";
 import type { Package, DayOfWeekRate } from "../types";
 import "./Booking.css";
 
@@ -35,6 +37,21 @@ export function Booking() {
   const [packages, setPackages] = useState<Package[] | null>(null);
   const [rates, setRates] = useState<DayOfWeekRate[]>([]);
   const [selectedPackage, setSelectedPackage] = useState<Package | null>(null);
+  const [range, setRange] = useState<DateRangeValue>({ start: null, end: null });
+  const [calendarKey, setCalendarKey] = useState(0);
+
+  function selectPackage(pkg: Package) {
+    setSelectedPackage(pkg);
+    setRange({ start: null, end: null });
+  }
+
+  function resetSelection() {
+    setRange({ start: null, end: null });
+    // Remounts the calendar so it re-fetches availability — matters after
+    // a successful hold, since dates that were "available" a moment ago
+    // are now "held" and shouldn't still look clickable.
+    setCalendarKey((k) => k + 1);
+  }
 
   useEffect(() => {
     (async () => {
@@ -55,6 +72,16 @@ export function Booking() {
     const packageRates = rates.filter((r) => r.packageId === packageId);
     if (packageRates.length === 0) return null;
     return Math.min(...packageRates.map((r) => r.baseRate));
+  }
+
+  // Picks whichever unit best represents this package for its thumbnail —
+  // the full property shows the main house, venue+cottage shows the
+  // cottage, venue-only falls back to the grounds. Update this once real
+  // photos exist per package rather than per unit, if that fits better.
+  function thumbnailFor(pkg: Package): string {
+    if (pkg.unitIds.includes("main-house")) return MAIN_HOUSE_PHOTO_URL;
+    if (pkg.unitIds.includes("cottage")) return placeholderPhoto("cottage", 300, 200);
+    return placeholderPhoto("grounds", 300, 200);
   }
 
   return (
@@ -81,15 +108,23 @@ export function Booking() {
                   key={pkg.id}
                   type="button"
                   className={`package-card ${isSelected ? "package-card--selected" : ""}`}
-                  onClick={() => setSelectedPackage(pkg)}
+                  onClick={() => selectPackage(pkg)}
                 >
-                  <h3>{pkg.name}</h3>
-                  <p className="package-card__desc">{pkg.description}</p>
-                  <div className="package-card__meta">
-                    <span className="package-card__price">
-                      {from !== null ? `From $${from.toLocaleString()}/night` : "Contact for pricing"}
-                    </span>
-                    <span className="package-card__guests">Up to {pkg.maxGuestCount} guests</span>
+                  <img
+                    className="package-card__thumb"
+                    src={thumbnailFor(pkg)}
+                    alt=""
+                    aria-hidden="true"
+                  />
+                  <div className="package-card__body">
+                    <h3>{pkg.name}</h3>
+                    <p className="package-card__desc">{pkg.description}</p>
+                    <div className="package-card__meta">
+                      <span className="package-card__price">
+                        {from !== null ? `From $${from.toLocaleString()}/night` : "Contact for pricing"}
+                      </span>
+                      <span className="package-card__guests">Up to {pkg.maxGuestCount} guests</span>
+                    </div>
                   </div>
                 </button>
               );
@@ -112,12 +147,22 @@ export function Booking() {
           <h2 className="booking-layout__heading">
             {selectedPackage ? `${selectedPackage.name} — Availability` : "Availability"}
           </h2>
-          {selectedPackage && <AvailabilityCalendar unitIds={selectedPackage.unitIds} />}
-          <p className="booking-layout__note">
-            Select a package to check its availability. Booking and deposit
-            checkout come next — this calendar currently shows open dates
-            only.
-          </p>
+          {selectedPackage && (
+            <AvailabilityCalendar
+              key={`${selectedPackage.id}-${calendarKey}`}
+              unitIds={selectedPackage.unitIds}
+              range={range}
+              onRangeChange={setRange}
+            />
+          )}
+
+          {selectedPackage && range.start && range.end && (
+            <BookingFlow
+              pkg={selectedPackage}
+              dateRange={{ startDate: range.start, endDate: range.end }}
+              onDone={resetSelection}
+            />
+          )}
         </div>
       </div>
     </div>

@@ -169,6 +169,25 @@ const seasonalAdjustments = [
 
 // ---------------------------------------------------------------------------
 
+// ---------------------------------------------------------------------------
+// CANCELLATION POLICY — sliding-scale refund tiers for cancelling a
+// CONFIRMED booking (deposit already paid). Measured as notice given before
+// the event date. Edit these in the admin dashboard once built, or here
+// before first seeding. minDaysBeforeEvent is the threshold: notice of AT
+// LEAST that many days qualifies for that tier's refundPercent.
+// ---------------------------------------------------------------------------
+const cancellationPolicy = {
+  id: "cancellationPolicy",
+  tiers: [
+    { minDaysBeforeEvent: 90, refundPercent: 100 },
+    { minDaysBeforeEvent: 60, refundPercent: 75 },
+    { minDaysBeforeEvent: 30, refundPercent: 50 },
+    { minDaysBeforeEvent: 0, refundPercent: 0 },
+  ],
+};
+
+// ---------------------------------------------------------------------------
+
 async function seedCollection(collectionName, docs) {
   const batch = db.batch();
   docs.forEach((doc) => {
@@ -184,6 +203,7 @@ async function main() {
   await seedCollection("packages", packages);
   await seedCollection("dayOfWeekRates", dayOfWeekRates);
   await seedCollection("seasonalAdjustments", seasonalAdjustments);
+  await seedCollection("settings", [cancellationPolicy]);
   console.log("Done.");
   process.exit(0);
 }

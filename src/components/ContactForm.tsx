@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { getRateSnapshot } from "../lib/firebase";
+import { trackEvent } from "../lib/analytics";
 import "./ContactForm.css";
 
 interface ContactFormProps {
@@ -12,6 +14,12 @@ interface ContactFormProps {
  * component posts to it via fetch at runtime (the standard pattern for
  * JS-rendered forms, since Netlify's build-time bot can't see form markup
  * that only exists after React renders).
+ *
+ * Before submitting, it also calls getRateSnapshot to fetch a fresh price
+ * quote and embeds it as a hidden field. This means the email notification
+ * always shows exactly what this person was quoted at the moment they
+ * asked — even if rates change in the admin dashboard afterward, this
+ * specific submission's snapshot never does.
  *
  * Email delivery itself is configured in the Netlify dashboard, not in
  * code — see the note in index.html next to the hidden form.
@@ -31,12 +39,27 @@ export function ContactForm({ context = "contact-page" }: ContactFormProps) {
     setStatus("submitting");
 
     try {
+      let rateSnapshot = "";
+      try {
+        const result = await getRateSnapshot({ eventDate: form.eventDate || undefined });
+        rateSnapshot = JSON.stringify(result.data);
+      } catch (snapshotErr) {
+        // Don't block the inquiry over a pricing-lookup hiccup — send
+        // without a snapshot rather than losing the inquiry entirely.
+        console.error("Couldn't fetch rate snapshot:", snapshotErr);
+      }
+
       const response = await fetch("/", {
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: new URLSearchParams({ "form-name": "contact", ...form }).toString(),
+        body: new URLSearchParams({
+          "form-name": "contact",
+          ...form,
+          rateSnapshot,
+        }).toString(),
       });
       if (!response.ok) throw new Error(`Netlify Forms returned ${response.status}`);
+      trackEvent("contact_form_submitted", { context });
       setStatus("success");
     } catch (err) {
       console.error("Contact form submission failed:", err);

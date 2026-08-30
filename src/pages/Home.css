@@ -51,17 +51,32 @@
 
 .grounds__card {
   background: #fff;
+  overflow: hidden;
   border-top: 3px solid var(--color-oak);
-  padding: 1.5rem;
+}
+
+.grounds__card-image {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  display: block;
+}
+
+.grounds__card h3,
+.grounds__card p {
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
 }
 
 .grounds__card h3 {
+  margin-top: 1.25rem;
   margin-bottom: 0.5rem;
   color: var(--color-wine);
 }
 
 .grounds__card p {
   margin: 0;
+  padding-bottom: 1.5rem;
   font-size: 0.95rem;
 }
 

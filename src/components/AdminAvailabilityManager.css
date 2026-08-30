@@ -1,0 +1,302 @@
+.admin-availability {
+  font-family: var(--font-mono);
+}
+
+.admin-availability__units {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-bottom: 0.5rem;
+  font-family: var(--font-body);
+}
+
+.admin-availability__unit-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.admin-availability__select-all {
+  font-size: 0.8rem;
+  background: none;
+  border: 1px solid var(--color-stone-dark);
+  padding: 0.3rem 0.7rem;
+  cursor: pointer;
+  border-radius: var(--radius);
+}
+
+.admin-availability__select-all:hover {
+  background: var(--color-stone);
+}
+
+.admin-availability__hint {
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  color: var(--color-ink-soft);
+  margin: 0 0 1.25rem;
+}
+
+.admin-availability__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  max-width: 380px;
+}
+
+.admin-availability__header button {
+  background: none;
+  border: 1px solid var(--color-stone-dark);
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+}
+
+.admin-availability__header button:hover {
+  background: var(--color-stone);
+}
+
+.admin-availability__header h3 {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+}
+
+.admin-availability__weekdays,
+.admin-availability__grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+  max-width: 380px;
+}
+
+.admin-availability__weekdays {
+  margin-bottom: 4px;
+}
+
+.admin-availability__weekdays span {
+  text-align: center;
+  font-size: 0.7rem;
+  color: var(--color-ink-soft);
+}
+
+.admin-availability__day {
+  position: relative;
+  aspect-ratio: 1;
+  border: 1px solid transparent;
+  background: none;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  border-radius: var(--radius);
+  cursor: default;
+}
+
+.admin-availability__day-icon {
+  position: absolute;
+  bottom: 1px;
+  right: 2px;
+  font-size: 0.5rem;
+  line-height: 1;
+}
+
+.admin-availability__day--past {
+  color: #ccc6b8;
+}
+
+.admin-availability__day--loading {
+  color: var(--color-ink-soft);
+  opacity: 0.4;
+}
+
+.admin-availability__day--available {
+  background: #eaf0e7;
+  color: var(--color-vine-dark);
+  cursor: pointer;
+}
+
+.admin-availability__day--available:hover {
+  background: var(--color-vine);
+  color: var(--color-stone);
+}
+
+.admin-availability__day--held {
+  background: #fbf1da;
+  color: var(--color-oak);
+  opacity: 0.85;
+  cursor: pointer;
+}
+
+.admin-availability__day--held:hover {
+  filter: brightness(0.96);
+}
+
+.admin-availability__day--info-open {
+  outline: 2px solid var(--color-oak);
+  outline-offset: -2px;
+}
+
+.admin-availability__day--booked {
+  background: #f3e6e6;
+  color: var(--color-wine);
+  text-decoration: line-through;
+  opacity: 0.75;
+}
+
+.admin-availability__day--blocked {
+  background: repeating-linear-gradient(
+    135deg,
+    var(--color-stone-dark),
+    var(--color-stone-dark) 4px,
+    #d8d0c0 4px,
+    #d8d0c0 8px
+  );
+  color: var(--color-oak);
+  cursor: pointer;
+}
+
+.admin-availability__day--blocked:hover {
+  filter: brightness(0.95);
+}
+
+.admin-availability__day--mixed {
+  outline: 2px dashed var(--color-wine);
+  outline-offset: -2px;
+}
+
+.admin-availability__legend {
+  display: flex;
+  gap: 1.1rem;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  color: var(--color-ink-soft);
+}
+
+.admin-availability__legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.admin-availability__swatch {
+  width: 10px;
+  height: 10px;
+  display: inline-block;
+  border-radius: 2px;
+}
+
+.admin-availability__swatch--available {
+  background: #eaf0e7;
+  border: 1px solid var(--color-vine);
+}
+
+.admin-availability__swatch--held {
+  background: #fbf1da;
+  border: 1px solid var(--color-oak);
+}
+
+.admin-availability__swatch--booked {
+  background: #f3e6e6;
+  border: 1px solid var(--color-wine);
+}
+
+.admin-availability__swatch--blocked {
+  background: repeating-linear-gradient(
+    135deg,
+    var(--color-stone-dark),
+    var(--color-stone-dark) 2px,
+    #d8d0c0 2px,
+    #d8d0c0 4px
+  );
+  border: 1px solid var(--color-oak);
+}
+
+.admin-availability__hold-detail {
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  color: var(--color-ink-soft);
+  background: #fbf1da;
+  border-left: 3px solid var(--color-oak);
+  padding: 0.65rem 0.85rem;
+  margin: 0.75rem 0 0;
+}
+
+.admin-availability__hold-detail p {
+  margin: 0 0 0.6rem;
+}
+
+.admin-availability__hold-detail strong {
+  color: var(--color-oak);
+}
+
+.admin-availability__refund-input {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  margin-bottom: 0.75rem;
+}
+
+.admin-availability__refund-input input {
+  width: 70px;
+  padding: 0.4rem 0.5rem;
+  border: 1px solid var(--color-stone-dark);
+  border-radius: var(--radius);
+  font-family: var(--font-mono);
+}
+
+.admin-availability__refund-amount {
+  font-family: var(--font-mono);
+  color: var(--color-wine);
+}
+
+.admin-availability__cancel-hold--secondary {
+  background: var(--color-oak);
+  margin-bottom: 0.5rem;
+}
+
+.admin-availability__cancel-hold--secondary:hover {
+  background: #543a2d;
+}
+
+.admin-availability__middle-date-note {
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  color: var(--color-ink-soft);
+  background: rgba(0, 0, 0, 0.03);
+  padding: 0.5rem 0.7rem;
+  margin: 0 0 0.6rem;
+  border-radius: var(--radius);
+}
+
+.admin-availability__cancel-hold {
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  background: var(--color-wine);
+  color: #fff;
+  border: none;
+  padding: 0.45rem 0.9rem;
+  cursor: pointer;
+  border-radius: var(--radius);
+}
+
+.admin-availability__cancel-hold:hover {
+  background: #551d2c;
+}
+
+.admin-availability__cancel-hold:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.admin-availability__click-hint {
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  color: var(--color-ink-soft);
+  margin-top: 0.75rem;
+  max-width: 420px;
+}

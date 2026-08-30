@@ -31,14 +31,21 @@ service cloud.firestore {
       allow write: if isAdmin();
     }
 
-    // Availability is read-only for the public calendar. It never contains
-    // client PII (name/email live on the booking doc, not here), so it's
-    // safe to expose broadly. All writes happen via Cloud Functions using
-    // the Admin SDK, which bypasses these rules entirely — so "write: if
-    // false" here just blocks direct client writes, not your functions.
+    // Cancellation policy tiers, etc. — nothing sensitive, same pattern as
+    // packages/rates: publicly readable, admin-only to change.
+    match /settings/{settingId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // Availability is read-only for the public calendar and writable only
+    // by an admin (for manually blocking/unblocking a date — see the Admin
+    // page) or by Cloud Functions using the Admin SDK, which bypasses these
+    // rules entirely regardless of what's written here. Direct writes from
+    // a signed-in customer are never allowed.
     match /availability/{unitId}/dates/{dateId} {
       allow read: if true;
-      allow write: if false;
+      allow write: if isAdmin();
     }
 
     // Bookings contain PII (name, email, phone) — never publicly readable.
