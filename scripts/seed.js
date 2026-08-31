@@ -64,7 +64,13 @@ const packages = [
     name: "Venue Only",
     unitIds: ["venue-grounds"],
     maxGuestCount: 150,
-    description: "Ceremony and reception space only, no overnight lodging.",
+    description:
+      "Full use of the venue and main house with commercial kitchen, no overnight lodging.",
+    bullets: [
+      "Full use of the venue grounds",
+      "Access to the main house's commercial kitchen",
+      "No overnight lodging included",
+    ],
     active: true,
   },
   {
@@ -72,15 +78,28 @@ const packages = [
     name: "Venue + Cottage",
     unitIds: ["venue-grounds", "cottage"],
     maxGuestCount: 150,
-    description: "Venue plus the detached cottage (1 bedroom, 2 bathrooms, kitchen, livingroom, and deck) for the couple or family.",
+    description:
+      "Full use of the venue and main house with commercial kitchen, plus the detached cottage (1 bedroom, 2 bathrooms, kitchen, livingroom, and deck).",
+    bullets: [
+      "Full use of the venue grounds",
+      "Access to the main house's commercial kitchen",
+      "Detached cottage: 1 bedroom, 2 bathrooms, kitchen, living room, and deck",
+    ],
     active: true,
   },
   {
     id: "full-property-buyout",
-    name: "Full Property Buyout",
+    name: "Full Property Rental",
     unitIds: ["venue-grounds", "cottage", "main-house"],
     maxGuestCount: 150,
-    description: "Full use of the venue, cottage (1 bedroom, 2 bathrooms, kitchen, livingroom, and deck), and main house (6 bedrooms, each with private full bathroom, shared living spaces, and commercial kitchen).",
+    description:
+      "Full use of the venue, cottage (1 bedroom, 2 bathrooms, kitchen, livingroom, and deck), and main house (6 bedrooms, each with private full bathroom, shared living spaces, and commercial kitchen).",
+    bullets: [
+      "Full use of the venue grounds",
+      "Cottage: 1 bedroom, 2 bathrooms, kitchen, living room, and deck",
+      "Main house: 6 bedrooms, each with a private full bathroom",
+      "Shared living spaces and commercial kitchen in the main house",
+    ],
     active: true,
   },
 ];
