@@ -23,7 +23,6 @@
 .booking-layout__heading {
   font-size: 1.2rem;
   margin-bottom: 1rem;
-  margin-top: 1.3rem;
 }
 
 .booking-layout__calendar {
@@ -85,6 +84,27 @@
 .package-card__desc {
   font-size: 0.9rem;
   margin-bottom: 0.75rem;
+}
+
+.package-card__bullets {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 0.75rem;
+  font-size: 0.85rem;
+  color: var(--color-ink-soft);
+}
+
+.package-card__bullets li {
+  position: relative;
+  padding-left: 1rem;
+  margin-bottom: 0.25rem;
+}
+
+.package-card__bullets li::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: var(--color-gold);
 }
 
 .package-card__meta {

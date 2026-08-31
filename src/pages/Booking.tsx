@@ -119,6 +119,13 @@ export function Booking() {
                   <div className="package-card__body">
                     <h3>{pkg.name}</h3>
                     <p className="package-card__desc">{pkg.description}</p>
+                    {pkg.bullets && pkg.bullets.length > 0 && (
+                      <ul className="package-card__bullets">
+                        {pkg.bullets.map((bullet, i) => (
+                          <li key={i}>{bullet}</li>
+                        ))}
+                      </ul>
+                    )}
                     <div className="package-card__meta">
                       <span className="package-card__price">
                         {from !== null ? `From $${from.toLocaleString()}/night` : "Contact for pricing"}

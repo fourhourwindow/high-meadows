@@ -28,6 +28,7 @@ export interface Package {
   unitIds: string[];
   maxGuestCount: number;
   description?: string;
+  bullets?: string[];
   photos?: string[];
   active: boolean;
 }

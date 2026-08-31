@@ -76,6 +76,17 @@ function formatDateLabel(isoDate: string): string {
   });
 }
 
+/**
+ * Formats a plain "YYYY-MM-DD" string as "M/D/YYYY". Parses the string
+ * directly rather than through `new Date(isoDate)` — the Date constructor
+ * treats a bare date string as UTC midnight, which can roll back a day
+ * once converted to a negative-UTC-offset local timezone (most of the US).
+ */
+function formatMDY(isoDate: string): string {
+  const [year, month, day] = isoDate.split("-").map(Number);
+  return `${month}/${day}/${year}`;
+}
+
 // Plain Unicode symbols, not emoji — these render in the day's normal text
 // color (following CSS `color`) rather than forcing their own colored glyph
 // the way many emoji do. Color alone shouldn't carry the held-vs-booked
@@ -291,7 +302,7 @@ export function AvailabilityCalendar({
             ? "Click a start date."
             : !range.end
             ? "Now click an end date (or the same date again for a single night)."
-            : `${range.start} → ${range.end}`}
+            : `${formatMDY(range.start)} → ${formatMDY(range.end)}`}
         </p>
       )}
       {rangeError && <p className="availability-calendar__range-error">{rangeError}</p>}

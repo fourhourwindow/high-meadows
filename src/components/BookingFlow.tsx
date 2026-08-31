@@ -33,6 +33,27 @@ function formatMDY(isoDate: string): string {
 }
 
 /**
+ * Submits the hidden "hold-notification" form (see index.html) so Netlify
+ * emails you about it — same trick as ContactForm.tsx. This is purely a
+ * notification side-effect: the hold itself is already fully created by
+ * the time this runs, via the createBookingHold Cloud Function above. If
+ * this fails for any reason, it's logged but never shown to the couple —
+ * a missed notification email shouldn't make their successful hold look
+ * like it failed.
+ */
+async function notifyAdminOfHold(fields: Record<string, string>): Promise<void> {
+  try {
+    await fetch("/", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: new URLSearchParams({ "form-name": "hold-notification", ...fields }).toString(),
+    });
+  } catch (err) {
+    console.error("Hold-notification submission failed:", err);
+  }
+}
+
+/**
  * Collects guest details, creates a hold via the createBookingHold Cloud
  * Function (which re-checks availability and recomputes price
  * server-side — never trust the client for either), then hands off to
@@ -64,6 +85,22 @@ export function BookingFlow({ pkg, dateRange, onDone }: Props) {
         package_name: pkg.name,
         value: holdResult.totalPrice,
         currency: "USD",
+      });
+
+      const dateRangeLabel =
+        dateRange.startDate === dateRange.endDate
+          ? formatMDY(dateRange.startDate)
+          : `${formatMDY(dateRange.startDate)} – ${formatMDY(dateRange.endDate)}`;
+      notifyAdminOfHold({
+        clientName: form.clientName,
+        email: form.email,
+        phone: form.phone,
+        guestCount: String(form.guestCount),
+        packageName: pkg.name,
+        dateRange: dateRangeLabel,
+        totalPrice: `$${holdResult.totalPrice.toLocaleString()}`,
+        holdExpiresAt: new Date(holdResult.holdExpiresAt).toLocaleString(),
+        bookingId: holdResult.bookingId,
       });
     } catch (err: any) {
       setError(

@@ -38,6 +38,28 @@
       <input type="text" name="bot-field" />
     </form>
 
+    <!--
+      Notification-only "form" — never seen or filled out by a visitor.
+      BookingFlow.tsx submits to this via fetch right after a real hold is
+      created through the createBookingHold Cloud Function (which is what
+      actually creates the hold — this form does nothing on its own). Its
+      only job is giving Netlify something to email you about. Configure
+      the recipient the same way as the contact form: Netlify dashboard >
+      Site configuration > Forms > Form notifications > Add notification >
+      Email notification, selecting the "hold-notification" form.
+    -->
+    <form name="hold-notification" data-netlify="true" hidden>
+      <input type="text" name="clientName" />
+      <input type="email" name="email" />
+      <input type="text" name="phone" />
+      <input type="number" name="guestCount" />
+      <input type="text" name="packageName" />
+      <input type="text" name="dateRange" />
+      <input type="text" name="totalPrice" />
+      <input type="text" name="holdExpiresAt" />
+      <input type="text" name="bookingId" />
+    </form>
+
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
