@@ -46,6 +46,18 @@ export function Terms() {
         balance is due under the terms provided to you at booking.
       </p>
 
+       <h2>Text messaging</h2>
+      <p>
+        We do not send text messages to you unless you have given us
+        permission to do so. Providing a phone number by itself does not
+        sign you up to receive texts — if you separately opt in to receive
+        text updates (for example, about your hold or booking), you may
+        receive messages related to that purpose. Message frequency varies,
+        and message and data rates may apply. You can opt out at any time
+        by replying STOP, or by contacting us directly. Agreeing to receive
+        text messages is never a condition of booking with us.
+      </p>
+
       <h2>Cancellations and refunds</h2>
       <p>
         Cancellation of a confirmed booking is handled on a sliding scale —

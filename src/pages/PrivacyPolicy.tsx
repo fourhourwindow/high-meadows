@@ -5,7 +5,7 @@ export function PrivacyPolicy() {
     <div className="container legal-page">
       <span className="eyebrow">Legal</span>
       <h1>Privacy Policy</h1>
-      <p className="legal-page__updated">Last updated: 08/31/2026</p>
+      <p className="legal-page__updated">Last updated: 08/31/2026]</p>
 
       {/* <p className="legal-page__notice">
         This page was drafted to describe how this site actually works, as a
@@ -97,6 +97,18 @@ export function PrivacyPolicy() {
           directly.
         </li>
       </ul>
+
+      <h2>Text messaging</h2>
+      <p>
+        We do not send text messages to you unless you have given us
+        permission to do so. If you provide a phone number and opt in to
+        receive text messages from us, that number is used only to send you
+        the messages you've agreed to receive. We do not sell or share your
+        phone number or SMS opt-in consent with third parties for their own
+        marketing purposes. See our{" "}
+        <a href="/terms">Terms &amp; Conditions</a> for how to opt in or out
+        of text messages.
+      </p>
 
       <h2>Cookies and local storage</h2>
       <p>
