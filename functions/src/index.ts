@@ -12,3 +12,4 @@ export { onBookingDeleted } from "./bookingCleanup";
 export { cancelBookingHold } from "./cancelHold";
 export { cancelConfirmedBooking } from "./cancelConfirmedBooking";
 export { shrinkBookingDateRange } from "./shrinkBooking";
+export { holdSmsWebhook } from "./holdSmsWebhook";

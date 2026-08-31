@@ -13,6 +13,8 @@ import { Gallery } from "./pages/Gallery";
 import { Contact } from "./pages/Contact";
 import { Login } from "./pages/Login";
 import { Admin } from "./pages/Admin";
+import { PrivacyPolicy } from "./pages/PrivacyPolicy";
+import { Terms } from "./pages/Terms";
 
 export function App() {
   useEffect(() => {
@@ -32,6 +34,8 @@ export function App() {
             <Route path="/gallery" element={<Gallery />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/privacy" element={<PrivacyPolicy />} />
+            <Route path="/terms" element={<Terms />} />
             <Route
               path="/admin"
               element={
