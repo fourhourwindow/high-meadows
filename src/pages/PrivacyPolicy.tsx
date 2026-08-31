@@ -5,14 +5,14 @@ export function PrivacyPolicy() {
     <div className="container legal-page">
       <span className="eyebrow">Legal</span>
       <h1>Privacy Policy</h1>
-      <p className="legal-page__updated">Last updated: [DATE]</p>
+      <p className="legal-page__updated">Last updated: 08/31/2026</p>
 
-      <p className="legal-page__notice">
+      {/* <p className="legal-page__notice">
         This page was drafted to describe how this site actually works, as a
         starting point — it has not been reviewed by an attorney. Have it
         reviewed by qualified legal counsel before relying on it, especially
         once the site is processing real payments.
-      </p>
+      </p> */}
 
       <h2>What this covers</h2>
       <p>

@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { ContourMap } from "../ContourMap";
 import { LogoMark } from "../LogoMark";
 import { ContactDetails } from "../ContactDetails";
@@ -15,6 +16,17 @@ export function Footer() {
           </p>
         </div>
         <ContactDetails />
+      </div>
+      <div className="container site-footer__bottom">
+        <Link to="/privacy" className="site-footer__admin-link">
+          Privacy Policy
+        </Link>
+        <Link to="/terms" className="site-footer__admin-link">
+          Terms &amp; Conditions
+        </Link>
+        <Link to="/login" className="site-footer__admin-link">
+          Admin login
+        </Link>
       </div>
     </footer>
   );

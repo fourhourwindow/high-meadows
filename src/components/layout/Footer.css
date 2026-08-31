@@ -34,12 +34,30 @@
 .contact-details a {
   color: var(--color-stone);
   text-decoration: none;
-  /* font-family: var(--font-mono); */
+  font-family: var(--font-mono);
   font-size: 0.85rem;
 }
 
 .contact-details a:hover {
   color: var(--color-gold);
+}
+
+.site-footer__bottom {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  border-top: 1px solid rgba(243, 238, 227, 0.15);
+  padding: 1rem 1.5rem;
+}
+
+.site-footer__admin-link {
+  font-size: 0.75rem;
+  color: rgba(243, 238, 227, 0.4);
+  text-decoration: none;
+}
+
+.site-footer__admin-link:hover {
+  color: rgba(243, 238, 227, 0.7);
 }
 
 .site-footer__logo {
