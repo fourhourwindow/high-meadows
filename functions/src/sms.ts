@@ -2,17 +2,31 @@
  * Minimal Twilio SMS sender using their REST API directly via fetch — no
  * need for the full twilio npm package for a single, simple use case.
  *
+ * Authenticates with an API Key rather than your raw Account SID + Auth
+ * Token — this is what Twilio itself recommends for anything beyond local
+ * testing, since an API Key can be revoked individually without needing
+ * to reset your master Auth Token (which every other Twilio integration
+ * you might add later would also be using).
+ *
  * SETUP (one-time, done by you — not in code):
  *   1. Sign up at twilio.com. On a trial account, you'll need to verify
  *      your own cell number before Twilio will let you send to it.
  *   2. Buy a Twilio phone number: Phone Numbers > Buy a number. This is
  *      the number texts appear to come FROM — costs roughly $1/month,
  *      plus a small per-message fee (a fraction of a cent each).
- *   3. From the Twilio console dashboard, copy your Account SID and Auth
- *      Token, then run:
+ *   3. Create an API Key: Console > Account > API keys & tokens > Create
+ *      API key. Choose type "Standard" — enough access to send messages
+ *      without granting account-management permissions a "Main" key
+ *      would. Copy the Key SID and Secret immediately; the secret is
+ *      only ever shown once.
+ *   4. From your functions folder, run:
  *        firebase functions:secrets:set TWILIO_ACCOUNT_SID
- *        firebase functions:secrets:set TWILIO_AUTH_TOKEN
- *   4. Update TWILIO_FROM_NUMBER and ADMIN_PHONE_NUMBER below with your
+ *        firebase functions:secrets:set TWILIO_API_KEY_SID
+ *        firebase functions:secrets:set TWILIO_API_KEY_SECRET
+ *      (Account SID is on your Console dashboard's main page — Twilio
+ *      still needs this in the request URL even when authenticating with
+ *      an API Key instead of the Auth Token.)
+ *   5. Update TWILIO_FROM_NUMBER and ADMIN_PHONE_NUMBER below with your
  *      Twilio number and your own cell number, both in E.164 format
  *      (e.g. +15551234567 — country code, no dashes or spaces).
  */
@@ -31,8 +45,9 @@ interface SendSmsInput {
  */
 export async function sendSms({ to, body }: SendSmsInput): Promise<void> {
   const accountSid = process.env.TWILIO_ACCOUNT_SID;
-  const authToken = process.env.TWILIO_AUTH_TOKEN;
-  if (!accountSid || !authToken) {
+  const apiKeySid = process.env.TWILIO_API_KEY_SID;
+  const apiKeySecret = process.env.TWILIO_API_KEY_SECRET;
+  if (!accountSid || !apiKeySid || !apiKeySecret) {
     console.error("Twilio credentials not configured — skipping SMS send");
     return;
   }
@@ -43,7 +58,11 @@ export async function sendSms({ to, body }: SendSmsInput): Promise<void> {
       {
         method: "POST",
         headers: {
-          Authorization: "Basic " + Buffer.from(`${accountSid}:${authToken}`).toString("base64"),
+          // Username is the API Key SID, password is the API Key Secret —
+          // NOT the Account SID / Auth Token pair, even though the URL
+          // above still needs the real Account SID.
+          Authorization:
+            "Basic " + Buffer.from(`${apiKeySid}:${apiKeySecret}`).toString("base64"),
           "Content-Type": "application/x-www-form-urlencoded",
         },
         body: new URLSearchParams({ To: to, From: TWILIO_FROM_NUMBER, Body: body }).toString(),

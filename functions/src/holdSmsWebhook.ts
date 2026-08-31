@@ -25,7 +25,7 @@ import { sendSms, ADMIN_PHONE_NUMBER } from "./sms";
 const WEBHOOK_SHARED_SECRET = "REPLACE_WITH_A_LONG_RANDOM_STRING";
 
 export const holdSmsWebhook = functions.onRequest(
-  { secrets: ["TWILIO_ACCOUNT_SID", "TWILIO_AUTH_TOKEN"] },
+  { secrets: ["TWILIO_ACCOUNT_SID", "TWILIO_API_KEY_SID", "TWILIO_API_KEY_SECRET"] },
   async (req, res) => {
     if (req.query.secret !== WEBHOOK_SHARED_SECRET) {
       res.status(403).send("Forbidden");
