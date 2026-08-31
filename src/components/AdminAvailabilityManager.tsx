@@ -66,6 +66,11 @@ function nightsBetween(startDate: string, endDate: string): number {
 interface Props {
   units: Unit[];
   onDone: (message: string) => void;
+  /** Called after a hold is cancelled or a booking's dates are shrunk —
+   * lets the parent (Admin.tsx) refresh its own "Active Holds" list, which
+   * this component has no way to update directly since it's a separate
+   * section fed by its own data fetch. */
+  onHoldChanged?: () => void;
 }
 
 /**
@@ -78,7 +83,7 @@ interface Props {
  * date is the first or last night of a multi-night stay — remove just
  * that one night and keep the rest, with the price recalculated.
  */
-export function AdminAvailabilityManager({ units, onDone }: Props) {
+export function AdminAvailabilityManager({ units, onDone, onHoldChanged }: Props) {
   const [selectedUnitIds, setSelectedUnitIds] = useState<string[]>([]);
   const [cursor, setCursor] = useState(() => {
     const stored = loadStoredMonth();
@@ -311,6 +316,7 @@ export function AdminAvailabilityManager({ units, onDone }: Props) {
           .slice(0, 10);
       }
       onDone("Cancelled the hold — those dates are available again.");
+      onHoldChanged?.();
       closeInfoPanel();
     } catch (err) {
       console.error(err);
@@ -386,6 +392,7 @@ export function AdminAvailabilityManager({ units, onDone }: Props) {
             : ` — $${data.refundAmount.toFixed(2)} refunded`
           : "";
       onDone(`Removed ${infoDate} — new total $${data.newTotal.toLocaleString()}${refundNote}.`);
+      onHoldChanged?.();
       closeInfoPanel();
     } catch (err) {
       console.error(err);

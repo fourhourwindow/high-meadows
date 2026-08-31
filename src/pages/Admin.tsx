@@ -24,6 +24,17 @@ import type {
 } from "../types";
 import "./Admin.css";
 
+/**
+ * Formats a plain "YYYY-MM-DD" date string as "M/D/YYYY". Parses the string
+ * directly rather than through `new Date(isoDate)` — the Date constructor
+ * treats a bare date string as UTC midnight, which can roll back a day
+ * once converted to a negative-UTC-offset local timezone (most of the US).
+ */
+function formatMDY(isoDate: string): string {
+  const [year, month, day] = isoDate.split("-").map(Number);
+  return `${month}/${day}/${year}`;
+}
+
 const DAYS: DayOfWeek[] = [
   "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday",
 ];
@@ -177,9 +188,9 @@ export function Admin() {
               <div className="hold-row__info">
                 <strong>{booking.clientName}</strong> — {booking.email}
                 <div className="hold-row__meta">
-                  {booking.packageSnapshot.name} · {booking.dateRange.startDate}
+                  {booking.packageSnapshot.name} · {formatMDY(booking.dateRange.startDate)}
                   {booking.dateRange.startDate !== booking.dateRange.endDate &&
-                    ` – ${booking.dateRange.endDate}`}
+                    ` – ${formatMDY(booking.dateRange.endDate)}`}
                 </div>
                 <div className="hold-row__price">
                   Locked price: ${booking.packageSnapshot.totalPrice.toLocaleString()}
@@ -328,7 +339,11 @@ export function Admin() {
           unit off the calendar without a booking behind it. Check one or
           more units below, then click dates on the calendar to toggle them.
         </p>
-        <AdminAvailabilityManager units={units} onDone={(msg) => flash(msg)} />
+        <AdminAvailabilityManager
+          units={units}
+          onDone={(msg) => flash(msg)}
+          onHoldChanged={loadAll}
+        />
       </section>
     </div>
   );

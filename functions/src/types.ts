@@ -24,7 +24,7 @@ export interface Unit {
 
 export interface Package {
   id: string;
-  name: string; // "Venue Only" | "Venue + Cottage" | "Full Property Buyout"
+  name: string; // "Venue Only" | "Venue + Cottage" | "Full Property Rental"
   unitIds: string[];
   maxGuestCount: number;
   description?: string;

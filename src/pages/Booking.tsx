@@ -97,7 +97,7 @@ export function Booking() {
 
       <div className="booking-layout">
         <div>
-          <h2 className="booking-layout__heading">Packages</h2>
+          <h2 className="booking-layout__heading">Packages (please select one)</h2>
           <div className="packages">
             {packages === null && <p>Loading packages…</p>}
             {packages?.map((pkg) => {
