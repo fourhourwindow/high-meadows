@@ -22,7 +22,7 @@ import { sendSms, ADMIN_PHONE_NUMBER } from "./sms";
  * secret in the URL is a lightweight but real deterrent; keep the URL
  * itself private the same way you'd treat an API key.
  */
-const WEBHOOK_SHARED_SECRET = "REPLACE_WITH_A_LONG_RANDOM_STRING";
+const WEBHOOK_SHARED_SECRET = "lkasdf89asdahsdjasdfkjasdnf239832";
 
 export const holdSmsWebhook = functions.onRequest(
   { secrets: ["TWILIO_ACCOUNT_SID", "TWILIO_API_KEY_SID", "TWILIO_API_KEY_SECRET"] },

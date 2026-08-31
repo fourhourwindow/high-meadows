@@ -30,8 +30,8 @@
  *      Twilio number and your own cell number, both in E.164 format
  *      (e.g. +15551234567 — country code, no dashes or spaces).
  */
-export const TWILIO_FROM_NUMBER = "+15550000000"; // ← your Twilio number
-export const ADMIN_PHONE_NUMBER = "+15550000000"; // ← your own cell number
+export const TWILIO_FROM_NUMBER = "+14342121164"; // ← your Twilio number
+export const ADMIN_PHONE_NUMBER = "+18048334493"; // ← your own cell number
 
 interface SendSmsInput {
   to: string;
