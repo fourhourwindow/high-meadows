@@ -8,30 +8,40 @@
  * to reset your master Auth Token (which every other Twilio integration
  * you might add later would also be using).
  *
+ * Sends via a Messaging Service rather than a raw phone number — this is
+ * required, not optional, for US business texting. A number on its own
+ * isn't associated with your A2P 10DLC campaign registration; only a
+ * Messaging Service is. Sending with a plain `From` number instead
+ * produces error 30034 ("Message from an Unregistered Number") even when
+ * the number and campaign are both correctly set up.
+ *
  * SETUP (one-time, done by you — not in code):
  *   1. Sign up at twilio.com. On a trial account, you'll need to verify
  *      your own cell number before Twilio will let you send to it.
- *   2. Buy a Twilio phone number: Phone Numbers > Buy a number. This is
- *      the number texts appear to come FROM — costs roughly $1/month,
- *      plus a small per-message fee (a fraction of a cent each).
- *   3. Create an API Key: Console > Account > API keys & tokens > Create
+ *   2. Buy a Twilio phone number: Phone Numbers > Buy a number. Costs
+ *      roughly $1/month, plus a small per-message fee.
+ *   3. Create a Messaging Service (Messaging > Services), add your
+ *      phone number to it, and complete A2P 10DLC brand + campaign
+ *      registration for it — this can take anywhere from a few hours to
+ *      a couple of weeks to be approved.
+ *   4. Copy the Messaging Service SID (starts with "MG...") from
+ *      Messaging > Services > (your service).
+ *   5. Create an API Key: Console > Account > API keys & tokens > Create
  *      API key. Choose type "Standard" — enough access to send messages
  *      without granting account-management permissions a "Main" key
  *      would. Copy the Key SID and Secret immediately; the secret is
  *      only ever shown once.
- *   4. From your functions folder, run:
+ *   6. From your functions folder, run:
  *        firebase functions:secrets:set TWILIO_ACCOUNT_SID
  *        firebase functions:secrets:set TWILIO_API_KEY_SID
  *        firebase functions:secrets:set TWILIO_API_KEY_SECRET
  *      (Account SID is on your Console dashboard's main page — Twilio
  *      still needs this in the request URL even when authenticating with
  *      an API Key instead of the Auth Token.)
- *   5. Update TWILIO_FROM_NUMBER and ADMIN_PHONE_NUMBER below with your
- *      Twilio number and your own cell number, both in E.164 format
- *      (e.g. +15551234567 — country code, no dashes or spaces).
+ *   7. Update TWILIO_MESSAGING_SERVICE_SID and ADMIN_PHONE_NUMBER below.
  */
-export const TWILIO_FROM_NUMBER = "+14342121164"; // ← your Twilio number
-export const ADMIN_PHONE_NUMBER = "+18048334493"; // ← your own cell number
+export const TWILIO_MESSAGING_SERVICE_SID = "MG00000000000000000000000000000000"; // ← your Messaging Service SID
+export const ADMIN_PHONE_NUMBER = "+15550000000"; // ← your own cell number, E.164 format
 
 interface SendSmsInput {
   to: string;
@@ -65,7 +75,11 @@ export async function sendSms({ to, body }: SendSmsInput): Promise<void> {
             "Basic " + Buffer.from(`${apiKeySid}:${apiKeySecret}`).toString("base64"),
           "Content-Type": "application/x-www-form-urlencoded",
         },
-        body: new URLSearchParams({ To: to, From: TWILIO_FROM_NUMBER, Body: body }).toString(),
+        body: new URLSearchParams({
+          To: to,
+          MessagingServiceSid: TWILIO_MESSAGING_SERVICE_SID,
+          Body: body,
+        }).toString(),
       }
     );
     if (!response.ok) {
