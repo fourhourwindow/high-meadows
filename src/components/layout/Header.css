@@ -106,7 +106,7 @@
        .site-header__inner when open, so centering against the whole
        (now-taller) box would drag the toggle down out of place each time
        the menu opens. This keeps it pinned to the row regardless. */
-    top: calc(0.5rem + (40px - 34px) / 2);
+    top: calc(0.5rem + (60px - 34px) / 2);
     /* Matches the logo's inset from the left edge: the container's own
        side padding (1.5rem), reduced by the same 10px the logo is
        pulled in by (see .site-header__mark's margin-left). */
@@ -114,7 +114,7 @@
   }
 
   .site-header__logo {
-    height: 40px;
+    height: 60px; /* 40px + 20px */
   }
 
   /* A CSS-only accordion: animating grid-template-rows lets the dropdown
