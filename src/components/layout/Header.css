@@ -97,7 +97,10 @@
     display: flex;
     position: absolute;
     top: 50%;
-    right: 0;
+    /* Matches the logo's inset from the left edge: the container's own
+       side padding (1.5rem), reduced by the same 10px the logo is
+       pulled in by (see .site-header__mark's margin-left). */
+    right: calc(1.5rem - 10px);
     transform: translateY(-50%);
   }
 
