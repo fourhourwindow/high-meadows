@@ -18,6 +18,7 @@
 .site-header__mark {
   display: inline-flex;
   align-items: center;
+  margin-left: -10px;
 }
 
 .site-header__logo {
