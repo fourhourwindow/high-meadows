@@ -13,6 +13,7 @@
   justify-content: space-between;
   padding-top: 1.1rem;
   padding-bottom: 1.1rem;
+  position: relative; /* anchors the mobile toggle, which sits in the top-right corner out of flex flow */
 }
 
 .site-header__mark {
@@ -90,8 +91,14 @@
     flex-wrap: wrap;
   }
 
+  /* Taken out of flex flow and pinned to the corner so it always sits
+     beside the logo on the same row instead of wrapping under it. */
   .site-header__toggle {
     display: flex;
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
   }
 
   .site-header__logo {
