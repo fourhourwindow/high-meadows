@@ -89,6 +89,11 @@
 @media (max-width: 640px) {
   .site-header__inner {
     flex-wrap: wrap;
+    /* Shrinks the top row (logo + toggle) so the header reads closer to
+       ~60px tall on mobile instead of the ~120px it was at before,
+       between this and the smaller logo height below. */
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
   }
 
   /* Taken out of flex flow and pinned to the corner so it always sits
@@ -96,16 +101,20 @@
   .site-header__toggle {
     display: flex;
     position: absolute;
-    top: 50%;
+    /* A fixed offset from the top of the row, not top:50% — the dropdown
+       is a sibling that appears *below* this row and grows the height of
+       .site-header__inner when open, so centering against the whole
+       (now-taller) box would drag the toggle down out of place each time
+       the menu opens. This keeps it pinned to the row regardless. */
+    top: calc(0.5rem + (40px - 34px) / 2);
     /* Matches the logo's inset from the left edge: the container's own
        side padding (1.5rem), reduced by the same 10px the logo is
        pulled in by (see .site-header__mark's margin-left). */
     right: calc(1.5rem - 10px);
-    transform: translateY(-50%);
   }
 
   .site-header__logo {
-    height: 78px; /* 65px * 1.2 */
+    height: 40px;
   }
 
   /* A CSS-only accordion: animating grid-template-rows lets the dropdown
