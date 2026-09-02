@@ -28,6 +28,15 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Nearly every font-size across the site is set in rem, so bumping the root
+   size here scales all of them together (~25% larger) on phone-width
+   screens, instead of having to touch every component's stylesheet. */
+@media (max-width: 640px) {
+  html {
+    font-size: 125%;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;

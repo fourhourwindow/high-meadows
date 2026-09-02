@@ -76,6 +76,18 @@
   flex: 1;
 }
 
+@media (max-width: 640px) {
+  .package-card {
+    flex-direction: column;
+  }
+
+  .package-card__thumb {
+    width: 100%;
+    min-width: 0;
+    height: 160px;
+  }
+}
+
 .package-card h3 {
   color: var(--color-vine-dark);
   margin-bottom: 0.4rem;

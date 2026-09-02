@@ -13,12 +13,13 @@
   justify-content: space-between;
   padding-top: 1.1rem;
   padding-bottom: 1.1rem;
- 
+  position: relative; /* anchors the mobile toggle, which sits in the top-right corner out of flex flow */
 }
 
 .site-header__mark {
   display: inline-flex;
   align-items: center;
+  margin-left: -10px;
 }
 
 .site-header__logo {
@@ -27,12 +28,12 @@
   display: block;
 }
 
-.site-header__nav {
+.site-header__nav-list {
   display: flex;
   gap: 2rem;
 }
 
-.site-header__nav a {
+.site-header__nav-list a {
   font-size: 0.9rem;
   text-decoration: none;
   color: var(--color-ink-soft);
@@ -40,23 +41,124 @@
   border-bottom: 1px solid transparent;
 }
 
-.site-header__nav a:hover {
+.site-header__nav-list a:hover {
   color: var(--color-ink);
 }
 
-.site-header__nav a.active {
+.site-header__nav-list a.active {
   color: var(--color-wine);
   border-bottom-color: var(--color-wine);
 }
 
+/* Hamburger toggle — hidden on desktop, where the nav is always shown. */
+.site-header__toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: stretch;
+  gap: 6px;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.site-header__toggle span {
+  display: block;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--color-ink);
+  transition: transform 260ms cubic-bezier(0.4, 0, 0.2, 1), opacity 200ms ease;
+}
+
+.site-header__toggle--open span:nth-child(1) {
+  transform: translateY(8px) rotate(45deg);
+}
+
+.site-header__toggle--open span:nth-child(2) {
+  opacity: 0;
+  transform: scaleX(0);
+}
+
+.site-header__toggle--open span:nth-child(3) {
+  transform: translateY(-8px) rotate(-45deg);
+}
+
 @media (max-width: 640px) {
   .site-header__inner {
-    flex-direction: column;
-    gap: 0.75rem;
-    align-items: flex-start;
-  }
-  .site-header__nav {
-    gap: 1.25rem;
     flex-wrap: wrap;
+  }
+
+  /* Taken out of flex flow and pinned to the corner so it always sits
+     beside the logo on the same row instead of wrapping under it. */
+  .site-header__toggle {
+    display: flex;
+    position: absolute;
+    top: 50%;
+    /* Matches the logo's inset from the left edge: the container's own
+       side padding (1.5rem), reduced by the same 10px the logo is
+       pulled in by (see .site-header__mark's margin-left). */
+    right: calc(1.5rem - 10px);
+    transform: translateY(-50%);
+  }
+
+  .site-header__logo {
+    height: 78px; /* 65px * 1.2 */
+  }
+
+  /* A CSS-only accordion: animating grid-template-rows lets the dropdown
+     grow to fit its content and collapse to zero height, without needing
+     JS to measure it. The nav sits at zero height by default so it takes
+     no vertical space until opened. */
+  .site-header__nav {
+    display: grid;
+    grid-template-rows: 0fr;
+    width: 100%;
+    order: 3;
+    transition: grid-template-rows 320ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .site-header__nav--open {
+    grid-template-rows: 1fr;
+  }
+
+  .site-header__nav-list {
+    flex-direction: column;
+    gap: 0;
+    overflow: hidden;
+    min-height: 0;
+  }
+
+  .site-header__nav-list a {
+    padding: 0.85rem 0.25rem;
+    border-bottom: 1px solid var(--color-stone-dark);
+    opacity: 0;
+    transform: translateY(-6px);
+    transition: opacity 200ms ease, transform 200ms ease;
+    transition-delay: 0ms;
+  }
+
+  /* Links fade/slide in one after another once the dropdown opens, instead
+     of all appearing at once — the delay is only meaningful while opening,
+     so it's set on the open state rather than the base rule. */
+  .site-header__nav--open .site-header__nav-list a {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .site-header__nav--open .site-header__nav-list a:nth-child(1) { transition-delay: 60ms; }
+  .site-header__nav--open .site-header__nav-list a:nth-child(2) { transition-delay: 110ms; }
+  .site-header__nav--open .site-header__nav-list a:nth-child(3) { transition-delay: 160ms; }
+  .site-header__nav--open .site-header__nav-list a:nth-child(4) { transition-delay: 210ms; }
+}
+
+/* global.css already forces transition-duration to ~0 under reduced motion;
+   the per-link delays above are still additive on top of that, so zero
+   those too. */
+@media (prefers-reduced-motion: reduce) {
+  .site-header__nav-list a {
+    transition-delay: 0ms !important;
   }
 }
