@@ -93,6 +93,10 @@
     display: flex;
   }
 
+  .site-header__logo {
+    height: 78px; /* 65px * 1.2 */
+  }
+
   /* A CSS-only accordion: animating grid-template-rows lets the dropdown
      grow to fit its content and collapse to zero height, without needing
      JS to measure it. The nav sits at zero height by default so it takes
